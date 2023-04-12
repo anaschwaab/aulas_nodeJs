@@ -110,6 +110,14 @@ app.get("/usuarios", (req, res) => {
     res.json(usuarios);
 });
 
+//Homework, exercício II (precisamos colocar antes de :index)
+app.get("/usuarios/novo", (req, res) => {
+    const {nome, email} = req.query;
+    const novoUsuario = {nome: nome, email: email};
+    usuarios.push(novoUsuario);
+    res.status(201).json({message: "Usuário adicionado!"});
+});
+
 app.get("/usuarios/:index", (req, res) => {
     const index = Number(req.params.index);
     const usuarioEncontrado = usuarios[index];
@@ -121,6 +129,18 @@ app.get("/usuarios/:index", (req, res) => {
         res.status(404).json({message: "Usuário não encontrado"});
     };
     
+});
+
+//Homework, exercício I:
+app.get("/usuarios/email/:email", (req, res) => {
+    const { email } = req.params;
+    const usuarioEncontrado = usuarios.find(el => el.email === email);
+
+    if(usuarioEncontrado){
+        res.json(usuarioEncontrado);
+    }else{
+        res.status(404).json({message: "Usuário não encontrado"})
+    };
 });
 
 // Inicializa a escuta de requisições do servidor
